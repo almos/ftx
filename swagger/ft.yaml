@@ -1,0 +1,5910 @@
+openapi: 3.0.0
+info:
+  title: ftx
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /api/author/:
+    put:
+      tags: [ author ]
+      summary: Create an author
+      operationId: put-api-author
+      description: Create an author
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/AuthorCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/author/{authorId}:
+    post:
+      tags: [ author ]
+      summary: Update an author
+      operationId: post-api-author-{authorId}
+      description: Update an author by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: authorId
+          in: 'path'
+          description: "authorId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/AuthorUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags: [ author ]
+      summary: Fetch the author
+      operationId: get-api-author-{authorId}
+      description: Fetch the author by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: authorId
+          in: 'path'
+          description: "authorId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Author'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/author/avatar{authorId}:
+    post:
+      tags: [ author ]
+      summary: Upload avatar for author
+      operationId: post-api-author-avatar-{authorId}
+      description: Upload avatar for author
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: authorId
+          in: 'path'
+          description: "authorId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Author'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    delete:
+      tags: [ author ]
+      summary: Remove author avatar
+      operationId: delete-api-author-avatar-{authorId}
+      description: Remove author avatar
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "authorId"
+          in: 'path'
+          description: "authorId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Author'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/author/search:
+    get:
+      tags: [ author ]
+      summary: Searching for authors - admin only
+      operationId: get-api-author-search
+      description: Searching for authors
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Searching for authors
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Author'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/bookmark/{type}/{bookmarkedObjectId}:
+    put:
+      tags: [ bookmark ]
+      summary: Create a bookmark
+      operationId: put-api-bookmark
+      description: Create a bookmark for the logged in user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "type"
+          in: 'path'
+          description: "The type of bookmark being created"
+          required: true
+          schema:
+            type: "string"
+        - name: "bookmarkedObjectId"
+          in: 'path'
+          description: "The objectId of object being bookmarked"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Bookmark'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+
+  /api/bookmark/{bookmarkId}:
+    delete:
+      tags: [ bookmark ]
+      summary: Deletes the given bookmark by id
+      operationId: delete-api-bookmark-{bookmarkId}
+      description: Deletes the given bookmark by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: bookmarkId
+          in: 'path'
+          description: "bookmarkId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Bookmark'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/bookmark:
+    get:
+      tags: [ bookmark ]
+      summary: Gets all the (owned) bookmarks for the logged user
+      operationId: get-api-bookmark
+      description: Gets all the (owned) bookmarks for the logged user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bookmark'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/bookmark/{type}:
+    get:
+      tags: [ bookmark ]
+      summary: Gets all bookmarks of a given type owned by the user
+      operationId: get-api-bookmark-{type}
+      description: Gets all bookmarks of a given type owned by the user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "type"
+          in: 'path'
+          description: "Type of object being searched. If omitted it searched gets all types"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Bookmark'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+
+
+  /api/business-idea/:
+    put:
+      tags: [ business-idea ]
+      summary: Create a business-idea
+      operationId: put-api-business-idea
+      description: Create a business-idea
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdeaCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/business-idea/{businessIdeaId}:
+    post:
+      tags: [ business-idea ]
+      summary: Update a business-idea
+      operationId: post-api-business-idea-{businessIdeaId}
+      description: Update a business-idea by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: businessIdeaId
+          in: 'path'
+          description: "businessIdeaId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdeaUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags: [ business-idea ]
+      summary: Fetch the business-idea
+      operationId: get-api-business-idea-{businessIdeaId}
+      description: Fetch the business-idea by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: businessIdeaId
+          in: 'path'
+          description: "businessIdeaId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdea'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/business-idea/me:
+    get:
+      tags: [ business-idea ]
+      summary: Retreieve user owned business-ideas
+      operationId: get-api-business-idea-me
+      description: Retreieve user owned business-ideas
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdea'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/business-idea/{businessIdeaId}/pitches:
+    get:
+      tags: [ business-idea ]
+      summary: Retrieves existing business idea
+      operationId: get-api-business-idea-{businessIdeaId}-pitches
+      description: Retrieves existing business idea
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: businessIdeaId
+          in: 'path'
+          description: "businessIdeaId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdea'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/business-idea/logo/{businessIdeaId}':
+    post:
+      summary: Upload logo image by businessIdeaId.
+      tags: [ business-idea ]
+      operationId: post-business-logo
+      description: Upload logo image by businessIdeaId.
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "businessIdeaId"
+          in: 'path'
+          description: "The business idea ID to upload image to"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BusinessIdeaUploadLogoReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/BusinessIdea'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Invalid Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                    example:
+                      - title: "Invalid value"
+        '500':
+          description: Internal Server Error
+  /api/review-categories/:
+    get:
+      tags: [ review-categories ]
+      summary: Review categories retrieval
+      operationId: get-api-review-categories
+      description: Review categories retrieval
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/ReviewCategory'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+  /api/signup-questions/:
+    get:
+      tags: [ signup-questions ]
+      summary: Signup questions retrieval
+      operationId: get-api-signup-questions
+      description: Signup questions retrieval
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/SignupQuestion'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+  /api/video/:
+    put:
+      tags: [ video ]
+      summary: Upload a video
+      operationId: put-api-video
+      description: Upload local video to videoservice
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/video/{videoId}:
+    post:
+      tags: [ video ]
+      summary: Update video information
+      operationId: post-api-video-{videoId}
+      description: Update video information
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags: [ video ]
+      summary: Fetch the video
+      operationId: get-api-video-{videoId}
+      description: Fetch the video by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/video/{videoId}/like:
+    get:
+      tags: [ video ]
+      summary: Like the video
+      operationId: get-api-video-{videoId}-like
+      description: Like the video by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/video/{videoId}/dislike:
+    get:
+      tags: [ video ]
+      summary: Dislike the video
+      operationId: get-api-video-{videoId}-dislike
+      description: Diskike the video by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/video/{videoId}/viewmark:
+    post:
+      tags: [ video ]
+      summary: Update video viewmark information
+      operationId: post-api-video-{videoId}-viewmark
+      description: Update video viewmark information by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags: [ video ]
+      summary: Fetch video viewmark
+      operationId: get-api-video-{videoId}-viewmark
+      description: Fetch video viewmark by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "videoId"
+          in: 'path'
+          description: "videoId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/video/search:
+    get:
+      tags: [ video ]
+      summary: Searching for videos
+      operationId: get-api-video-search
+      description: Searching for videos
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "videoization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: "author"
+          in: 'query'
+          description: "Author Id for searching"
+          schema:
+            type: "string"
+        - name: "tags"
+          in: 'query'
+          description: "Tag describes group of topic related video"
+          schema:
+            type: array
+            items:
+              type: string
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Searching for videos
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/Video'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unvideoized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+
+
+
+
+  /api/user/profile/me:
+    put:
+      tags: [ users ]
+      summary: Create user self profile
+      operationId: put-user-profile-me
+      description: Create user self profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags: [ users ]
+      summary: Retrieves current user's profile
+      operationId: get-user-profile-me
+      description: Retrieves current user's profile
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ users ]
+      summary: Updates current user's profile
+      operationId: post-user-profile-me
+      description: Updates current user profile. Supposed to be updated by a non-privileged user by itself
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AggregatedUserProfile'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileUserEditable'
+        description: Subset of UserProfile which regular non-privileged user is allowed to update
+      security:
+        - API Key: []
+    parameters: []
+  
+  '/api/user/device':
+    post:
+      tags: [users]
+      summary: Adds/refreshes an fcm token
+      operationId: post-api-user-device
+      description: Adds/refreshes an fcm token
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceUpdateRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+      security:
+        - API Key: [ ]
+
+  '/api/user/profile/my-mentors':
+    get:
+      tags: [ users ]
+      summary: Retrieves user's mentors
+      operationId: get-api-user-profile-mentors
+      description:  Retrieves user's mentors
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+      security:
+        - API Key: []
+
+  '/api/user/profile/my-investors':
+    get:
+      tags: [ users ]
+      summary: Retrieves user's investors
+      operationId: get-api-user-profile-investors
+      description:  Retrieves user's investors
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+      security:
+        - API Key: []
+
+  '/api/user/profile/{userId}':
+    get:
+      tags: [ users ]
+      summary: Retrieves user's profile by user ID
+      operationId: get-api-user-profile
+      description: Retrieves user's profile by user ID
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: userId
+          in: 'path'
+          description: "userId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+      security:
+        - API Key: []
+    put:
+      tags: [ users ]
+      summary: Create new user - Admin only
+      operationId: put-api-user-profile
+      description: Creates an user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Created user profile record
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/UserProfileUserEditable'
+                - $ref: '#/components/schemas/UserProfileAdminEditable'
+        description: ''
+    post:
+      tags: [ users ]
+      summary: Updated user profile record
+      operationId: post-api-user-profile
+      description: Updates an user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Updated user profile record
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      security:
+        - API Key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AggregatedUserProfile'
+            examples:
+              example-1:
+                value:
+                  id: 5fc52fbcf779cd786fabfff0
+                  email: test@domain.com
+                  name: BoJack
+                  surname: Horseman
+                  avatarUrl: 'https://i.pravatar.cc/300'
+                  bio: User's bio goes here
+                  theme: light
+                  createdAt: '2020-11-30T17:45:32.193Z'
+                  verified: true
+                  deleted: true
+                  paid: true
+                  role: admin
+                  hasMarketingConsent: true
+                  marketingConsentTimestamp: '2020-11-30T17:45:32.193Z'
+                  watchedVideos: 123
+        description: ''
+    delete:
+      tags: [ users ]
+      summary: Updated user profile record
+      operationId: delete-api-user-profile
+      description: Disables an user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Updated user profile record
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileId'
+    parameters:
+      - schema:
+          type: string
+        name: userId
+        in: path
+        required: true
+        description: User ID
+  '/api/user/avatar/me':
+    post:
+      tags: [ users ]
+      summary: Handles self avatar upload
+      operationId: post-api-user-avatar-me
+      description: Disables an user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Handles self avatar upload
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    delete:
+      tags: [ users ]
+      summary: Handles self avatar removal
+      operationId: post-api-user-avatar-me
+      description: Disables an user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Handles self avatar removal
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/user/search':
+    get:
+      tags: [ users ]
+      summary: Searching for users - admin only
+      operationId: get-api-user-search
+      description: Searching for users
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: "email"
+          in: 'query'
+          description: "User's email"
+          schema:
+            type: "string"
+        - name: "name"
+          in: 'query'
+          description: "User's name"
+          required: false
+          schema:
+            type: "string"
+        - name: "surname"
+          in: 'query'
+          description: "User's surname"
+          schema:
+            type: "string"
+        - name: "role"
+          in: 'query'
+          description: "User's role"
+          schema:
+            type: "string"
+        - name: "id"
+          in: 'query'
+          description: "User's id"
+          schema:
+            type: "string"
+        - name: "orgname"
+          in: 'query'
+          description: "The name of the organization to which the user belongs"
+          schema:
+            type: "string"
+            default: null
+        - name: "orgid"
+          in: 'query'
+          description: "The id of the organization to which the user belongs"
+          schema:
+            type: "string"
+        - name: "groupname"
+          in: 'query'
+          description: "The name of the group to which the user belongs"
+          schema:
+            type: "string"
+        - name: "groupid"
+          in: 'query'
+          description: "The id of the group to which the user belongs"
+          schema:
+            type: "string"
+        - name: "lang"
+          in: 'query'
+          description: "User's language in ISO 639-1 format"
+          schema:
+            type: "string"
+            items:
+              type: "string"
+              enum:
+                - "en"
+                - "fr"
+        - name: "sub"
+          in: 'query'
+          description: "Flag that expands user nested objects"
+          schema:
+            type: "boolean"
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Searching for users
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/AggregatedUserProfile'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfileId'
+  '/api/user/reset':
+    get:
+      tags: [ users ]
+      summary: Reset user password
+      operationId: get-api-user-reset
+      description: Generates a user password reset link existing profile
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - type: object
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/profile/firebase/{firebaseUserId}':
+    get:
+      summary: Retrieves firebase user object
+      tags: [ users ]
+      operationId: get-profile-firebase-userId
+      description: Retrieves Firebase user object by a Firebase user ID
+      parameters:
+        - schema:
+            type: string
+          name: firebaseUserId
+          in: path
+          required: true
+          description: Firebase user identifier
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/FirebaseUserResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    delete:
+      tags: [ users ]
+      summary: Delete firebase user profile
+      operationId: delete-api-profile-firebase-userId
+      description: Removes Firebase user object by a Firebase user ID
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: firebaseUserId
+          in: 'path'
+          description: "firebaseUserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/FirebaseUserResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/user/feedback':
+    put:
+      tags : [users]
+      operationId: put-user-feedback
+      description: Creating feedback's application via each user
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserApplicationFeedBackReq'
+        description: Sentence that user can be input to describe that how about user feel after using this app.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/UserApplicationFeedBackResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Error in case of "feedback" is empty string or not send body to Back-End
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            feedback:
+                              type: string
+                        example: 
+                          - feedback: "Invalid value"                        
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+    get:
+      tags : [users]
+      operationId: get-user-feedback
+      description: inquery feedback's application in system.
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "pageSize"
+        in: 'query'
+        description: "Maximum number of items per page after the search"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/UserApplicationFeedBackList'
+                      paging:
+                        $ref: '#/components/schemas/Paging'  
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+  '/api/user/meeting/{userId}':
+    put:
+      tags : [users]
+      summary: user create meeting request.
+      operationId: put-user-meeting-userId
+      description: For User type Founder, Mentor and Investor as requester create meeting request to each other (requestee) one-by-one.
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "userId"
+        in: 'path'
+        description: "it is userId being requestee who requester want to meeting"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/UserMeetingRequest-response'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Error in case of "feedback" is empty string or not send body to Back-End
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                        example: 
+                          - "You as userId XXXXXXX do not have calendlyUrl data."
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+          
+
+  /api/connection/{connectionType}/{otherUserId}:
+    put:
+      tags: [user-connection]
+      summary: Create a connection between users
+      operationId: put-user-connection
+      description: Create a connection between users
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "connectionType"
+          in: 'path'
+          description: "Connection type. Enum e.g. mentor-founder"
+          required: true
+          schema:
+            type: "string"
+        - name: "otherUserId"
+          in: 'path'
+          description: "User id of the user that the connection request is sent to"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/UserConnection'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/connection/{connectionType}:
+    get:
+      tags: [ user-connection ]
+      summary: Gets a list of the current user's connections
+      operationId: get-user-connections
+      description: Gets a list of the current user's connections
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "connectionType"
+          in: 'path'
+          description: "Connection type to filter by. Returns all if empty"
+          required: false
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          type:
+                            $ref: '#/components/schemas/UserConnection'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/connection/{userId}/{connectionType}:
+    get:
+      tags: [ user-connection ]
+      summary: Gets a list of the other user's connections
+      operationId: get-other-user-connections
+      description: Gets a list of the other user's connections
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "userId"
+          in: 'path'
+          description: "User id of the connections you want to see"
+          required: false
+          schema:
+            type: "string"
+        - name: "connectionType"
+          in: 'path'
+          description: "Connection type to filter by. Returns all if empty"
+          required: false
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          type:
+                            $ref: '#/components/schemas/UserConnection'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/connection/{connectionId}:
+    delete:
+      tags: [ user-connection ]
+      summary: Delete a connection between users
+      operationId: delete-user-connection
+      description: Delete a connection between users
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "connectionId"
+          in: 'path'
+          description: "Connection id you want to delete"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/UserConnection'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/notification:
+    get:
+      tags: [ notification ]
+      summary: Gets a list of the current user's notifications
+      operationId: get-notification
+      description: Gets a list of the current user's notifications
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          type:
+                            $ref: '#/components/schemas/Notification'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/notification/{notificationId}/{actionResponse}:
+    post:
+      tags: [ notification ]
+      summary: Responds to action notification
+      operationId: post-notification-action
+      description: Responds to action notification
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "notificationId"
+          in: 'path'
+          description: "Internal id of the action notification"
+          required: true
+          schema:
+            type: "string"
+        - name: "actionResponse"
+          in: 'path'
+          description: "Action response e.g. accepted, rejected, read"
+          required: true
+          schema:
+            type: "string"
+  /api/notification/{notificationId}/read:
+    post:
+      tags: [ notification ]
+      summary: Marks this notification and all before it with status READ
+      operationId: post-notification-read
+      description: Marks this notification and all before it with status READ
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "notificationId"
+          in: 'path'
+          description: "Internal id of the action notification"
+          required: true
+          schema:
+            type: "string"
+        - name: "actionResponse"
+          in: 'path'
+          description: "Action response e.g. accepted, rejected"
+          required: true
+          schema:
+            type: "string"
+
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/Notification'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  /api/preuser:
+    put:
+      tags: [ preuser ]
+      summary: Create new preuser
+      operationId: put-preuser
+      description: Create new preuser
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "notify"
+          in: 'query'
+          description: "Send notify for user after pre-user has been created if true"
+          schema:
+            type: "boolean"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userData
+              properties:
+                userData:
+                  type: object
+                  description: all preuser data
+                  properties:
+                    name:
+                      type: string
+                    surname:
+                      type: string
+                    role:
+                      type: string
+                      enum:
+                        - founder
+                        - investor
+                        - admin
+                    email:
+                      type: string
+                    avatarUrl:
+                      type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/PreuserCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/preuser/{preuserId}':
+    get:
+      tags: [ preuser ]
+      summary: Fetches preuser by id
+      operationId: get-preuser
+      description: Retrieves existing preuser
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "preuserId"
+          in: 'path'
+          description: "preuserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/PreuserCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ preuser ]
+      summary: Updates preuser by id
+      operationId: post-preuser
+      description: Updates existing preuser
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "preuserId"
+          in: 'path'
+          description: "preuserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreuserCreation'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreuserEditable'
+      security:
+        - API Key: []
+    delete:
+      tags: [ preuser ]
+      summary: Deletes preuser by id
+      operationId: delete-preuser
+      description: Deletes existing preuser
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "preuserId"
+          in: 'path'
+          description: "preuserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/PreuserCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+
+  '/api/preuser/search':
+    get:
+      tags: [ preuser ]
+      summary: Searching for preusers
+      operationId: get-preuser-search
+      description: Searching for preusers
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching (serarches by name, surname, email, case insansative)"
+          schema:
+            type: "string"
+        - name: "email"
+          in: 'query'
+          description: "Preuser's email"
+          schema:
+            type: "string"
+        - name: "name"
+          in: 'query'
+          description: "Preuser's name"
+          required: false
+          schema:
+            type: "string"
+        - name: "surname"
+          in: 'query'
+          description: "Preuser's surname"
+          schema:
+            type: "string"
+        - name: "role"
+          in: 'query'
+          description: "Preuser's role"
+          schema:
+            type: "string"
+        - name: "inviteCodeSent"
+          in: 'query'
+          description: "Searches only preusers to whom the invite code was sent, if true"
+          schema:
+            type: "boolean"
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: Searching for preusers
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/PreuserCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/preuser/register':
+    get:
+      tags: [ preuser ]
+      summary: User registration
+      operationId: get-preuser-register
+      description: User registration by preuser invitation code
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "code"
+          in: 'query'
+          description: "Authorization code that user has been received on email, code format 'xxx-xxx'"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    example: { preUserId: 'preUserId', firstName: 'user first name' }
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/preuser/invite/{preuserId}':
+    get:
+      tags: [ preuser ]
+      summary: Send invite code to preuser
+      operationId: get-preuser-invite
+      description: Send invite code to preuser with preuser id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "preuserId"
+          in: 'path'
+          description: "preuserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/PreuserCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/preuser/invite/list':
+    get:
+      tags: [ preuser ]
+      summary: Send invite code to a list of preusers
+      operationId: get-preuser-invite-list
+      description: Send invite code to a list of preusers
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/PreusersIdListSuccesfullySent'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PreusersInviteList'
+        description: Subset of UserProfile which regular non-privileged user is allowed to update
+      security:
+        - API Key: []
+  '/api/group':
+    put:
+      tags: [ group ]
+      summary: Group creating - admin only
+      operationId: put-group
+      description: create new group
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/GroupCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/group/{groupId}':
+    get:
+      tags: [ group ]
+      summary: Group retrieving - admin only
+      operationId: get-group-{groupId}
+      description: get group by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: groupId
+          in: 'path'
+          description: "groupId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/GroupUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ group ]
+      summary: Group updating - admin only
+      operationId: post-group-{groupId}
+      description: updating existing group by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: groupId
+          in: 'path'
+          description: "groupId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Group'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/group/search':
+    get:
+      tags: [ group ]
+      summary: Group searching - admin only
+      operationId: get-group-search
+      description: searching for goups
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: "private"
+          in: 'query'
+          description: "flag that shows private groups"
+          schema:
+            type: "boolean"
+            default: false
+        - name: "limit"
+          in: 'query'
+          description: "flag for limiting reviewers for pitches"
+          schema:
+            type: "boolean"
+            default: false
+        - name: "organization"
+          in: 'query'
+          description: "The id of the organization to which the group belongs"
+          schema:
+            type: "string"
+            default: null
+        - name: "sub"
+          in: 'query'
+          description: "Flag that expands user nested objects"
+          schema:
+            type: "boolean"
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Group'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/group/search/all':
+    get:
+      tags: [ group ]
+      summary: Group searching all - admin only
+      operationId: get-group-search-all
+      description: searching for groups all
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "title"
+          in: 'query'
+          description: "Group title"
+          schema:
+            type: "string"
+        - name: "type"
+          in: 'query'
+          description: "flag that shows private groups"
+          schema:
+            type: "string"
+            enum:
+              - ft-global
+              - org-global
+              - generic
+        - name: 'pageSize'
+          in: 'query'
+          description: "Maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Group'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/playlist':
+    put:
+      tags: [ playlist ]
+      summary: Playlist creating - admin only
+      operationId: put-api-playlist
+      description: create new playlist
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PlaylistCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/playlist/{playlistId}':
+    get:
+      tags: [ playlist ]
+      summary: get playlist by Id - admin only
+      operationId: get-api-playlist-{playlistId}
+      description: retrieves playlist by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "playlistId"
+          in: 'path'
+          description: "playlistId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Playlist'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ playlist ]
+      summary: update playlist by Id - admin only
+      operationId: post-api-playlist-{playlistId}
+      description: update existing playlist by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "playlistId"
+          in: 'path'
+          description: "playlistId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PlaylistUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/playlist/{playlistId}/thumbnail':
+    post:
+      tags: [ playlist ]
+      summary: upload thumbnail for the playlist - admin only
+      operationId: get-api-playlist-{playlistId}
+      description: upload thumbnail for the playlist by Id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "playlistId"
+          in: 'path'
+          description: "playlistId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Playlist'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/playlist/search':
+    get:
+      tags: [ playlist ]
+      summary: Playlist searching - admin only
+      operationId: get-playlist-search
+      description: searching for playlist
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: "tags"
+          in: 'query'
+          description: "tags that describes playlists"
+          schema:
+            type: array
+            items:
+              type: string
+        - name: "sub"
+          in: 'query'
+          description: "flag that expands playlist nested objects"
+          schema:
+            type: "boolean"
+        - name: 'pageSize'
+          in: 'query'
+          description: "maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Playlist'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/playlist/search/all':
+    get:
+      tags: [ playlist ]
+      summary: Playlist searching all - admin only
+      operationId: get-playlist-search-all
+      description: searching for playlist all
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "q"
+          in: 'query'
+          description: "Query string for searching"
+          schema:
+            type: "string"
+        - name: "tags"
+          in: 'query'
+          description: "tags that describes playlists"
+          schema:
+            type: array
+            items:
+              type: string
+        - name: "sub"
+          in: 'query'
+          description: "flag that expands playlist nested objects"
+          schema:
+            type: "boolean"
+        - name: 'pageSize'
+          in: 'query'
+          description: "maximum number of items per page after the search"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Playlist'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  
+  '/api/language':
+    get:
+      tags: [ language ]
+      summary: retreives app languages
+      operationId: get-api-language
+      description: retreives array of languages that are available in the app
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  
+  '/api/pitch':
+    put:
+      tags: [ pitch ]
+      summary: Pitch creating
+      operationId: put-api-pitch
+      description: create new pitches
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/v2':
+    put:
+      tags: [ pitch ]
+      summary: create new pitches with business idea. Replace the businessIdeaId field with field called businessIdea which has an object containing the business idea fields
+      operationId: put-api-pitch
+      description: create new pitches with business idea. Replace the businessIdeaId field with field called businessIdea with is an object containing the business idea fields
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchCreation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/pitch/{pitchId}':
+    get:
+      tags: [ pitch ]
+      summary: retrieves pitch
+      operationId: get-api-pitch-{pitchId}
+      description: gets existing pitch by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ pitch ]
+      summary: update pitch
+      operationId: post-api-pitch-{pitchId}
+      description: update existing pitch by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    delete:
+      tags: [ pitch ]
+      summary: delete pitch
+      operationId: delete-api-pitch-{pitchId}
+      description: delete existing pitch by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/video':
+    post:
+      tags: [ pitch ]
+      summary: upload video for pitch
+      operationId: post-api-pitch-{pitchId}-video
+      description: upload video for pitch
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/get-suggested-network':
+    get:
+      tags: [ pitch ]      
+      summary: retrieves suggested network once pitch is approved and is processed by investability algorithm
+      operationId: get-api-pitch-{pitchId}-get-suggested-network
+      description: retrieves suggested network once pitch is approved and is processed by investability algorithm
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/User'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/submit':
+    get:
+      tags: [ pitch ]
+      summary: submits a pitch to a review queue
+      operationId: get-api-pitch-{pitchId}-submit
+      description: submits a pitch to a review queue
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/revoke':
+    get:
+      tags: [ pitch ]
+      summary: revokes a pitch from submission
+      operationId: get-api-pitch-{pitchId}-revoke
+      description: revokes a pitch from submission
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/unreviewed':
+    get:
+      tags: [ pitch ]
+      summary: gets unreviewed submitted pitches - admin endpoint
+      operationId: get-api-pitch-{pitchId}-unreviewed
+      description: gets unreviewed submitted pitches
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/approve':
+    get:
+      tags: [ pitch ]
+      summary: approves pitch to make it published (internal review)
+      operationId: get-api-pitch-{pitchId}-approve
+      description: approves pitch to make it published (internal review)
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/reject':
+    post:
+      tags: [ pitch ]
+      summary: rejects the pitch (internal review)
+      operationId: post-api-pitch-{pitchId}-reject
+      description: rejects the pitch (internal review)
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/send/{otherUserId}':
+    post:
+      tags: [ pitch ]
+      summary: Sends a pitch to a specific user
+      operationId: post-api-pitch-{pitchId}-send-{otherUserId}
+      description: Sends a pitch to a specific user
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+        - name: otherUserId
+          in: 'path'
+          description: "otherUserId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/pitch/{pitchId}/reviews':
+    get:
+      tags: [ pitch ]
+      summary: gets pitch reviews
+      operationId: get-api-pitch-{pitchId}-reviews
+      description: gets pitch reviews
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/review/{reviewId}':
+    get:
+      tags: [ pitch ]
+      summary: gets pitch review by ID
+      operationId: get-api-pitch-{pitchId}-review-{reviewId}
+      description: gets pitch review by ID
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+        - name: reviewId
+          in: 'path'
+          description: "reviewId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/my/all':
+    get:
+      tags: [ pitch ]
+      summary: retrieves user's pitches
+      operationId: get-api-pitch-my
+      description: retrieves user's pitches
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/pitch/my/active':
+    get:
+      tags: [ pitch ]
+      summary: retrieves user's active pitches
+      operationId: get-api-pitch-my-active
+      description: retrieves user's active pitches
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{userId}/active':
+    get:
+      tags: [ pitch ]
+      summary: retrieves user's active pitches
+      operationId: get-api-pitch-user-active
+      description: retrieves user's active pitches
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "userId"
+          in: 'path'
+          description: "The id of the user's pitches you wish to receive"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/Pitch'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: [ ]
+  '/api/pitch/{pitchId}/review/{reviewId}/feedback':
+    put:
+      tags: [ pitch ]
+      summary: add review for pitch review
+      operationId: get-api-pitch-{pitchId}-review-{reviewId}-feedback
+      description: add review for pitch review
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "pitchId"
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+        - name: "reviewId"
+          in: 'path'
+          description: "reviewId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ReviewForPitchReview'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    post:
+      tags: [ pitch ]
+      summary: update user own review for pitch review
+      operationId: post-api-pitch-{pitchId}-review-{reviewId}-feedback
+      description: update user own review for pitch review
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "pitchId"
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+        - name: "reviewId"
+          in: 'path'
+          description: "reviewId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/ReviewForPitchReview'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+    get:
+      tags: [ pitch ]
+      summary: find reviews for pitch review
+      operationId: find-api-pitch-{pitchId}-review-{reviewId}-feedback
+      description: find reviews for pitch review
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "pitchId"
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+        - name: "reviewId"
+          in: 'path'
+          description: "reviewId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/FindReviewsForPitchReview'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/like':
+    post:
+      tags: [ pitch ]
+      summary: update count of Like in pitch by increasing
+      operationId: post-api-pitch-{pitchId}-like
+      description: update by increase the count of like field in existing pitch by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/unlike':
+    post:
+      tags: [ pitch ]
+      summary: update count of Like in pitch by decreasing.
+      operationId: post-api-pitch-{pitchId}-unlike
+      description: update by decrease the count of like field until only 0 in existing pitch by id.
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/views':
+    post:
+      tags: [ pitch ]
+      summary: update count of view in pitch by increasing
+      operationId: post-api-pitch-{pitchId}-views
+      description: update by increase the count of views field in existing pitch by id
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: pitchId
+          in: 'path'
+          description: "pitchId"
+          required: true
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/PitchUpdation'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  '/api/pitch/{pitchId}/bookmark-count':
+    get:
+        tags: [ pitch ]
+        summary: get how many this pitch is bookmarked.
+        operationId: get-api-pitch-{pitchId}-bookmark-count
+        description: get how many this pitch is bookmarked
+        parameters:
+          - name: "AuthToken"
+            in: 'header'
+            description: "Authorization token"
+            required: true
+            schema:
+              type: "string"
+          - name: pitchId
+            in: 'path'
+            description: "pitchId"
+            required: true
+            schema:
+              type: "string"
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        allOf:
+                        - type: object
+                          properties:
+                            bookmarkCount:
+                              type: number
+                              example: 2
+                  - $ref: '#/components/schemas/GenericErrors'
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '500':
+            description: Internal Server Error
+        security:
+          - API Key: []
+
+  '/api/integration/linkedin/auth':
+    get:
+      tags: [ linkedin ]
+      summary: authorize with LinkedIn accounts via Firebase
+      operationId: get-api-integration-linkedin-auth
+      description: authorize with LinkedIn accounts via Firebase
+      parameters:
+        - name: "token"
+          in: 'header'
+          description: "LinkedIn authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: 'role'
+          in: 'header'
+          description: "LinkedIn authorization token"
+          schema:
+            type: string
+            enum:
+              - founder
+              - investor
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/responses/AuthWithLinkedIn'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      security:
+        - API Key: []
+  /api/system-config:
+    summary: System configurable values
+    put:
+      summary: Creates a system config
+      description: Creates a system config
+      operationId: put-api-system-config
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemConfigResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      tags:
+        - System Config
+
+  '/api/system-config/{configId}':
+    get:
+      summary: Gets a system config by id (not key)
+      description: ''
+      operationId: get-config-by-id-api-system-config
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+        - name: configId
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemConfigResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      tags:
+        - System Config
+    post:
+      summary: Updates a config using internal Id
+      description: ''
+      operationId: update-api-system-config
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+        - name: configId
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemConfigResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      tags:
+        - System Config
+
+  '/api/system-config/item/{itemKey}/{language}':
+    get:
+      summary: Gets a system config based on the itemKey and language
+      description: ''
+      operationId: 'get-by-id-api-system-config'
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+        - name: itemKey
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemConfigResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      tags:
+        - System Config
+  '/api/system-config/list/{groupKey}/{language}':
+    get:
+      summary: Gets a list of configs using groupKey and language
+      description: ''
+      operationId: get-list-api-system-config
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+        - name: groupKey
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+        - name: language
+          in: path
+          description: pitchId
+          required: true
+          schema:
+            type: string
+      responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                    - $ref: '#/components/schemas/SystemConfigsResponse'
+                    - $ref: '#/components/schemas/GenericErrors'
+          '401':
+            description: Unauthorized
+          '403':
+            description: Forbidden
+          '500':
+            description: Internal Server Error
+
+      tags:
+        - System Config
+  /api/system-config/search:
+    get:
+      summary: Search through system configs
+      description: ''
+      operationId: get-search-api-system-config
+      parameters:
+        - name: AuthToken
+          in: header
+          description: Authorization token
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/SystemConfigsResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+
+      tags:
+        - System Config
+  
+  '/api/community':
+    put:
+      summary: create community feed post via admin.
+      tags : [community]
+      operationId: put-community
+      description: Creating community feed via admin
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommunityFeedInsertReq'
+        description: Object that sended from front-end to create a community feed card.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/CommunityFeedResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Error in case of "title" is empty string or not send body to Back-End
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                        example: 
+                          - title: "Invalid value"                        
+        '500':
+          description: Internal Server Error
+  '/api/community/search':
+    get:
+      summary: search all community feed post.
+      tags : [community]
+      operationId: get-community-search
+      description: When app access community feed page, The app will call this api. For admin when they called ,it send community post that contain all status for deleted is false and deleted is true. On the other hand, non-admin will be gotten post’s data being deleted is only false and deleted filed will be disappeared.
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "pageSize"
+        in: 'query'
+        description: "Maximum number of items per page after the search. If don't send this data, it default 10"
+        required: false
+        schema:
+          type: "number"
+      - name: "pageNo"
+        in: 'query'
+        description: "PageNo for search. If don't send this data, it default 1"
+        required: false
+        schema:
+          type: "number"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/CommunityFeedResponse'
+                      paging:
+                        $ref: '#/components/schemas/Paging'  
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+  '/api/community/{communityPostId}':
+    get:
+      summary: search community feed post by communityPostId.
+      tags : [community]
+      operationId: get-community-search-communityCardId
+      description: When user want to search specific Community post ID
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "communityPostId"
+        in: 'path'
+        description: "communityPostId that user want to find."
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        allOf:
+                        - $ref: '#/components/schemas/CommunityFeedResponse'
+                        - type: object
+                          properties:
+                            deleted:
+                              type: boolean
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error 
+    post:
+      summary: Edit community feed post by communityPostId.
+      tags : [community]
+      operationId: post-community
+      description: Edit community post by communityPostId via admin.
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "communityPostId"
+        in: 'path'
+        description: "The community post ID that admin want to update"
+        required: true
+        schema:
+          type: "string"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+                $ref: '#/components/schemas/CommunityFeedUpdateReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/CommunityFeedResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Error in case of "title and communityCardId" is empty string or not send body to Back-End
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                      errors:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                        example: 
+                          - title: "Invalid value"
+        '500':
+          description: Internal Server Error
+    delete:
+      summary: delete community feed post by communityPostId.
+      tags : [community]
+      operationId: delete-community
+      description: Deleting community feed via admin. this end point is not real delete but it is update data that card Id via addind delete is true instead.
+      parameters:
+      - name: "AuthToken"
+        in: 'header'
+        description: "Authorization token"
+        required: true
+        schema:
+          type: "string"
+      - name: "communityPostId"
+        in: 'path'
+        description: "communityPostId taht user want to delete"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        allOf:
+                        - $ref: '#/components/schemas/CommunityFeedResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '500':
+          description: Internal Server Error
+  '/api/community/image/{communityPostId}':
+    post:
+      summary: Upload cover image for post by communityPostId.
+      tags: [ community ]
+      operationId: post-community-image
+      description: Upload cover image for post by communityPostId.
+      parameters:
+        - name: "AuthToken"
+          in: 'header'
+          description: "Authorization token"
+          required: true
+          schema:
+            type: "string"
+        - name: "communityPostId"
+          in: 'path'
+          description: "The community post ID that admin want to update"
+          required: true
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommunityFeedUploadImageReq'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      payload:
+                        $ref: '#/components/schemas/CommunityFeedResponse'
+                  - $ref: '#/components/schemas/GenericErrors'
+        '422':
+          description: Invalid Argument
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+                    example:
+                      - title: "Invalid value"
+        '500':
+          description: Internal Server Error
+
+components:
+  responses:
+    AuthWithLinkedIn:
+      description: authorize with LinkedIn accounts via Firebase
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              fbCustomToken:
+                type: string
+  schemas:
+    Group:
+      properties:
+        title:
+          type: string
+          example: 'New group'
+        type:
+          type: string
+          enum:
+            - ft-global
+            - org-global
+            - generic
+          default: generic
+        global:
+          type: boolean
+          default: false
+        private:
+          type: boolean
+          default: false
+        organization:
+          type: object
+          $ref: '#/components/schemas/Organization'
+        owner:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+        reviewers:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileUserEditable'
+        limitReviewers:
+          type: boolean
+          default: false
+    Playlist:
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        public:
+          type: boolean
+          default: false
+        previewImageUrl:
+          type: string
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+        autoPlay:
+          type: boolean
+          default: false
+        playlistAuthor:
+          type: object
+          $ref: '#/components/schemas/UserProfileUserEditable'
+        companyPlaylist:
+          type: boolean
+          default: false
+    VideoResource:
+      properties:
+        thumbnailUrl:
+          type: string
+        posterUrl:
+          type: string
+        videoUrl:
+          type: string
+    Video:
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        previewImageUrl:
+          type: string
+        tags:
+          type: string
+        authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserProfileUserEditable'
+        likesCount:
+          type: number
+        accessGroup:
+          type: array
+          items:
+            type: string
+            enum:
+              - 'PREMIUM'
+    Author:
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        avatarUrl:
+          type: string
+    BusinessIdea:
+      properties:
+        userId:
+          type: object
+          $ref: '#/components/schemas/UserProfileUserEditable'
+        latestAvgPitchRating:
+          type: number
+        title:
+          type: string
+        pitchCount:
+          type: number
+          default: 0
+        description:
+          type: string
+        language:
+          type: string
+        logo:
+          type: string
+        websiteUrl:
+          type: string
+        industries:
+          type: array
+          items:
+            type: string
+        location:
+          type: array
+          items:
+            type: string
+        stage:
+          type: string
+    Pitch:
+      properties:
+        businessIedaId:
+          type: object
+          $ref: '#/components/schemas/BusinessIdeaId'
+        userId:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+        title:
+          type: string
+          required:
+            - "can't be blank"
+        description:
+          type: string
+        language:
+          type: string
+        version:
+          type: number
+        tags:
+          type: array
+          items:
+            type: string
+        active:
+          type: boolean
+        deleted:
+          type: boolean
+        private:
+          type: boolean
+        avgRate:
+          type: number
+          default: 0
+        reviewFeedback:
+          type: object
+          $ref: '#/components/schemas/ReviewFeedback'
+        reviewed:
+          type: boolean
+          default: false
+        rejected:
+          type: boolean
+          default: false
+        reviewedBy:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+        reviews:
+          type: array
+          $ref: '#/components/schemas/PitchReview'
+        reviewCount:
+          type: number
+          default: 0
+        localVideoPath:
+          type: string
+        brightcove:
+          type: object
+        video:
+          type: object
+          $ref: '#/components/schemas/PitchVideo'
+        likes:
+          type: number
+          description: count of Like when user touch like button on pitch.It does not send this field if there are not data.
+          example: 2
+        views:
+          type: number
+          description: count of view when user access on this pitch..It does not send this field if data is nothing.
+          example: 5
+    PitchReview:
+      properties:
+        feedback:
+          type: string
+          required:
+            - "can't be blank"
+        avgRate:
+          type: number
+          default: 0
+        rate:
+          type: array
+          items:
+            $ref: '#/components/schemas/PitchRate'
+        userId:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+        submitDate:
+          type: string
+          format: date
+    PitchRate:
+      properties:
+        reviewCategoryId:
+          type: object
+          $ref: '#/components/schemas/ReviewCategoryId'
+        reviewRating:
+          type: number
+          minimum: 0
+          maximum: 10
+    ReviewFeedback:
+      properties:
+        userId:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+        rate:
+          type: number
+          enum:
+            - -1
+            - 1
+        date:
+          type: string
+          format: date
+    PitchVideo:
+      properties:
+        thumbnailUrl:
+          type: string
+        posterUrl:
+          type: string
+        videoUrl:
+          type: string
+        updateDate:
+          type: string
+          format: date
+    Preuser:
+      properties:
+        userData:
+          type: object
+          $ref: '#/components/schemas/AggregatedUserProfile'
+        inviteCode:
+          type: string
+          format: 'xxx-xxx'
+        inviteCodeSent:
+          type: boolean
+          default: false
+        inviteCodeSentDt:
+          type: string
+          format: Date
+        createdAt:
+          type: string
+          format: Date
+    ReviewCategory:
+      properties:
+        alias:
+          type: string
+        title:
+          type: string
+    SignupQuestion:
+      properties:
+        key:
+          type: string
+          uniqueItems: true
+          required:
+            - "can't be blank"
+        question:
+          type: string
+          uniqueItems: true
+          required:
+            - "can't be blank"
+        type:
+          type: string
+          enum:
+            - single
+            - multi
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+    Answer:
+      properties:
+        title:
+          type: string
+          uniqueItems: true
+          required:
+            - "can't be blank"
+        value:
+          type: string
+          uniqueItems: true
+          required:
+            - "can't be blank"
+    Organization:
+      properties:
+        title:
+          type: string
+        tenantAlias:
+          type: string
+        hidden:
+          type: boolean
+        owner:
+          type: object
+          $ref: '#/components/schemas/UserProfileId'
+    AuthorId:
+      description: ''
+      type: object
+      x-examples:
+        AuthorId example:
+          id: string
+      title: AuthorId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique author ID
+          example: 5fc52fbcf129cd786fabfff1
+      required:
+        - id
+    BusinessIdeaId:
+      description: ''
+      type: object
+      x-examples:
+        BusinessIdeaId example:
+          id: string
+      title: BusinessIdeaId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique business-idea ID
+          example: 6fc52fbcf219cd786fabffab
+      required:
+        - id
+    GroupId:
+      description: ''
+      type: object
+      x-examples:
+        GroupId example:
+          id: string
+      title: GroupId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique group ID
+          example: 7fc52fbcf307cd786fabfcba
+      required:
+        - id
+    PitchId:
+      description: ''
+      type: object
+      x-examples:
+        PitchId example:
+          id: string
+      title: PitchId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique pitch ID
+          example: 72c52fbcf137cd786fabf112
+      required:
+        - id
+    PlaylistId:
+      description: ''
+      type: object
+      x-examples:
+        PlaylistId example:
+          id: string
+      title: PlaylistId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique playlist ID
+          example: fac52fbcf307cd786fabf763
+      required:
+        - id
+    ReviewCategoryId:
+      description: ''
+      type: object
+      x-examples:
+        ReviewCategoryId example:
+          id: string
+      title: ReviewCategoryId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique review-category ID
+          example: cac52fbcf307ad786fabf261
+      required:
+        - id
+    UserProfileId:
+      description: ''
+      type: object
+      x-examples:
+        UserProfileId example:
+          id: string
+      title: UserProfileId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique user ID
+          example: 5fc52fbcf779cd786fabfff0
+      required:
+        - id
+    VideoId:
+      description: ''
+      type: object
+      x-examples:
+        VideoId example:
+          id: string
+      title: VideoId
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: |
+            Unique video ID
+          example: c3c52fbcf779cd786fabf835
+      required:
+        - id
+    Paging:
+      type: object
+      properties:
+        totalObjects:
+          type: integer
+        currentPage:
+          type: integer
+        totalPages:
+          type: integer
+        hasNextPage:
+          type: boolean
+        pageSize:
+          type: integer
+      example:
+        totalObjects: 17
+        currentPage: 1
+        totalPages: 2
+        hasNextPage: true
+        pageSize: 10
+
+    AuthorCreation:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          name: string
+          surname: string
+          avatarUrl: string
+          title: string
+          description: string
+      title: AuthorCreation
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Author first name
+          example: Joe
+        surname:
+          type: string
+          minLength: 1
+          description: Author last name
+          example: Koland
+        avatarUrl:
+          type: string
+          minLength: 1
+          description: Author's avatar URL
+          example: 'https://i.pravatar.cc/400'
+        title:
+          type: string
+          minLength: 1
+          description: position of athor
+          example: CEO
+        description:
+          type: string
+          minLength: 1
+          description: describes author
+          example: author description goes here
+    AuthorUpdation:
+      description: 'Admin update existing author'
+      type: object
+      x-examples:
+        example-1:
+          name: string
+          surname: string
+          avatarUrl: string
+          title: string
+          description: string
+      title: AuthorUpdation
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Author first name
+          example: Mike
+        surname:
+          type: string
+          minLength: 1
+          description: Author last name
+          example: Simons
+        avatarUrl:
+          type: string
+          minLength: 1
+          description: Author's avatar URL
+          example: 'https://i.pravatar.cc/420'
+        title:
+          type: string
+          minLength: 1
+          description: position of athor
+          example: CTO
+        description:
+          type: string
+          minLength: 1
+          description: describes author
+          example: author description goes here
+
+    Bookmark:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          type: string
+          bookmarkedObjectId: string
+      title: Bookmark
+      properties:
+        userId:
+          type: string
+          description: Object Id of the user
+          example: 43ae31c6abc98c663dede035
+        type:
+          type: string
+          description: Enum describing the type of the bookmark e.g. founder, mentor, investor, pitch, competition...
+          example: founder
+        bookmarkedObjectId:
+          type: string
+          description:  Object Id of the bookmarked item. NOTE this field is populated with the objects data in GET requests
+          example: 43e468029a222b1f443a8ede
+        id:
+          type: string
+          description: Object Id of the bookmark
+          example: 43e463000a222b1f443a8ff
+
+    BusinessIdeaCreation:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          language: string
+          logo: string
+          websiteUrl: string
+          industries: array
+          location: array
+          stage: string
+      title: BusinessIdeaCreation
+      properties:
+        title:
+          type: string
+          description: business-idea's title
+          example: Best business idea
+        description:
+          type: string
+          description: business-idea's description
+          example: Greatest business idea ever
+        language:
+          type: string
+          description: business-idea's language in ISO 639-1 format
+          example: en
+        logo:
+          type: string
+          description: business-idea's logo link
+          example: https://logoforexample.com
+        websiteUrl:
+          type: string
+          description: business-idea's website url
+          example: https://websiteforexample.com
+        industries:
+          type: array
+          description: bysiness-idea's industries
+          example: ['industries 1','industries 2']
+        location:
+          type: array
+          description: bysiness-idea's locations
+          example: ['location 1','location 2']
+        stage:
+          type: string
+          description: bysiness-idea's stage
+          example: stage 1
+    BusinessIdeaUpdation:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          language: string
+          logo: string
+          websiteUrl: string
+          industries: array
+          location: array
+          stage: string
+      title: BusinessIdeaUpdation
+      properties:
+        title:
+          type: string
+          description: new business-idea's title
+          example: Updated best business idea
+        description:
+          type: string
+          description: new business-idea's description
+          example: Updated greatest business idea ever
+        language:
+          type: string
+          description: new business-idea's language in ISO 639-1 format
+          example: fr
+        logo:
+          type: string
+          description: new business-idea's logo link
+          example: https://updatedlogoforexample.com
+        websiteUrl:
+          type: string
+          description: new business-idea's website url
+          example: https://updatedwebsiteforexample.com
+        industries:
+          type: array
+          description: new bysiness-idea's industries
+          example: ['updated industries']
+        location:
+          type: array
+          description: new bysiness-idea's locations
+          example: ['updated location']
+        stage:
+          type: string
+          description: new bysiness-idea's stage
+          example: updated stage
+    GroupCreation:
+      description: 'Create new group'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          type: string
+          global: boolean
+          private: boolean
+          websiteUrl: string
+          organization: string
+          owner: string
+          reviewers: array
+          limitReviewers: boolean
+      title: GroupCreation
+      properties:
+        title:
+          type: string
+          description: group's title
+          example: Company group
+        type:
+          type: string
+          description: group's type
+          example: generic
+        global:
+          type: boolean
+          description: is group global
+          example: false
+        private:
+          type: boolean
+          description: is group private
+          example: false
+        organization:
+          type: string
+          description: organization's Id
+          example: 602d61a214c6fd937c1ac9a5
+        owner:
+          type: string
+          description: user Id who own group
+          example: 321d61a214c6fd937c1ac3a2
+        reviewers:
+          type: array
+          description: users that can leave reviews for pitches connected with this group
+          example: ['321d61a214c6fd937c1ac3a2','321d61a214c6fd937c1ac3a1']
+        limitReviewers:
+          type: boolean
+          description: flag that limit users that are not in reviewers list to leave reviews for pitches connected with this group
+          default: false
+          example: true
+    GroupUpdation:
+      description: 'Update existing group by group Id'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          type: string
+          global: boolean
+          private: boolean
+          websiteUrl: string
+          organization: string
+          owner: string
+          reviewers: array
+          limitReviewers: boolean
+      title: GroupUpdation
+      properties:
+        title:
+          type: string
+          description: new group's title
+          example: Updated company group
+        type:
+          type: string
+          description: new group's type
+          example: ft-global
+        global:
+          type: boolean
+          description: is group global
+          example: true
+        private:
+          type: boolean
+          description: is group private
+          example: true
+        organization:
+          type: string
+          description: new organization's Id
+          example: 102d61a214c6fd937c1ac9a5
+        owner:
+          type: string
+          description: new user Id who own group
+          example: 521d61a214c6fd937c1ac3a1
+        reviewers:
+          type: array
+          description: new users that can leave reviews for pitches connected with this group
+          example: ['131d61a214c6fd937c1ac3a2','171d61a214c6fd937c1ac3a1']
+        limitReviewers:
+          type: boolean
+          description: flag that limit users that are not in reviewers list to leave reviews for pitches connected with this group
+          default: false
+          example: false
+
+    PitchCreation:
+      description: 'Create new pitch'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          businessIdeaId: string
+          language: string
+          tags: array
+          organization: string
+          private: boolean
+      title: PitchCreation
+      properties:
+        title:
+          type: string
+          description: pitch's title
+          example: flying the galaxies
+        description:
+          type: string
+          description: pitch's description
+          example: flying the galaxies describing
+        businessIdeaId:
+          type: string
+          description: business-idea's Id
+          example: 321d61a21416fd937c1ac371
+        language:
+          type: string
+          description: pitch's language in ISO 639-1 format
+          example: en
+        tags:
+          type: array
+          description: tags that describes the pitches topic
+          example: ['education','study']
+        organization:
+          type: string
+          description: organization's Id
+          example: 961d61a214c6fd937c1ac3c2
+        private:
+          type: boolean
+          description: is this pitch private
+          default: false
+          example: true
+    PitchUpdation:
+      description: 'Updating existing pitch by Id'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          businessIdeaId: string
+          language: string
+          tags: array
+          organization: string
+          private: boolean
+      title: PitchCreation
+      properties:
+        title:
+          type: string
+          description: new pitch's title
+          example: flying the galaxies
+        description:
+          type: string
+          description: new pitch's description
+          example: flying the galaxies describing
+        businessIdeaId:
+          type: string
+          description: new business-idea's Id
+          example: 321d61a21416fd937c1ac371
+        language:
+          type: string
+          description: new pitch's language in ISO 639-1 format
+          example: fr
+        tags:
+          type: array
+          description: new tags that describes the pitches topic
+          items:
+            type: string
+            example: 'science'
+        organization:
+          type: string
+          description: new organization's Id
+          example: 141d61a174c6fd937c1ac3c2
+        private:
+          type: boolean
+          description: is this pitch private
+          default: false
+          example: false
+        likes:
+          type: number
+          description: count of Like when user touch like button on pitch.
+          example: 2
+        views:
+          type: number
+          description: count of view when user access on this pitch.
+          example: 5
+    ReviewForPitchReview:
+      description: 'Add review for pitch review'
+      type: object
+      example: {
+        "payload": {
+          "rate": -1,
+          "userId": null,
+          "date": "2021-06-24T09:11:03.386Z",
+        }
+      }
+    FindReviewsForPitchReview:
+      description: 'Add review for pitch review'
+      type: object
+      example: {
+        "payload": [
+          {"rate": -1,"date": "2021-06-24T09:11:03.386Z","userId": null, },
+          {"rate": 1,"date": "2021-06-22T10:38:36.413Z","userId": "6058635ce072511174f9476e",},
+        ]
+      }
+    PlaylistCreation:
+      description: 'Create new playlist'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          tags: array
+          public: boolean
+          previewImageUrl: string
+          videos: array
+          autoPlay: boolean
+          playlistAuthor: string
+          companyPlaylist: boolean
+      title: PlaylistCreation
+      properties:
+        title:
+          type: string
+          description: playlist's title
+          example: english grammar
+        description:
+          type: string
+          description: playlist's description
+          example: learn english grammar from the very start
+        tags:
+          type: array
+          description: tags that describes the playlist topic
+          example: ['english','grammar']
+        public:
+          type: boolean
+          description: is playlist public
+          default: false
+          example: true
+        previewImageUrl:
+          type: string
+          description: url to preview image
+          example: https://previesimages.com/preview/341
+        videos:
+          type: array
+          description: video id array
+          example: ['961d61a214c6fd937c1ac3c2', '761da1a214c6fdc37c1ac3c4']
+        autoPlay:
+          type: boolean
+          description: videos in playlist should start play automatically
+          default: false
+          example: true
+        playlistAuthor:
+          type: string
+          description: author Id
+          example: 721d61a214c6fd937c1ac314
+        companyPlaylist:
+          type: boolean
+          description: playlist belongs to a company
+          default: false
+          example: true
+    PlaylistUpdation:
+      description: 'Update existing playlist by Id'
+      type: object
+      x-examples:
+        example-1:
+          title: string
+          description: string
+          tags: array
+          public: boolean
+          previewImageUrl: string
+          videos: array
+          autoPlay: boolean
+          playlistAuthor: string
+          companyPlaylist: boolean
+      title: PlaylistUpdation
+      properties:
+        title:
+          type: string
+          description: updated playlist's title
+          example: english grammar updated edition
+        description:
+          type: string
+          description: updated playlist's description
+          example: how to learn english grammar way faster
+        tags:
+          type: array
+          description: updated tags that describes the playlist topic
+          example: ['english','grammar', 'fast learning']
+        public:
+          type: boolean
+          description: is playlist public
+          default: false
+          example: true
+        previewImageUrl:
+          type: string
+          description: new url to preview image
+          example: https://previesimages.com/preview/741
+        videos:
+          type: array
+          description: video id updated array
+          example: ['811d61a214c6fd342c1ac3a7']
+        autoPlay:
+          type: boolean
+          description: videos in playlist should start play automatically
+          default: false
+          example: true
+        playlistAuthor:
+          type: string
+          description: author Id
+          example: 721d61a214c6fd937c1ac314
+        companyPlaylist:
+          type: boolean
+          description: playlist belongs to a company
+          default: false
+          example: true
+
+    PreuserCreation:
+      description: 'preuser'
+      type: object
+      title: PreuserEditable
+      parameters:
+        userData:
+          type: object
+          description: object with all preuser data
+          properties:
+            userData:
+              type: object
+              required: true
+              properties:
+                email:
+                  type: string
+                role:
+                  type: string
+                name:
+                  type: string
+                surname:
+                  type: string
+                avatarUrl:
+                  type: string
+    PreusersInviteList:
+      description: 'Array of preuser ids'
+      type: array
+      example: [
+          "5fd61c19631e2d86c5ae9cf0",
+          "6fd61c19631e2d86c5ae9cf1",
+          "7fd61c19631e2d86c5ae9cf2",
+      ]
+    PreusersIdListSuccesfullySent:
+      description: 'Array of preuser ids that invite code has been succesfully sent'
+      type: array
+      example: [
+          "5fd61c19631e2d86c5ae9cf0",
+          "6fd61c19631e2d86c5ae9cf1",
+          "7fd61c19631e2d86c5ae9cf2",
+      ]
+    PreuserEditable:
+      description: 'Edit preuser'
+      type: object
+      x-examples:
+        example-1:
+          email: string
+          name: string
+          surname: string
+          avatarUrl: string
+          role: string
+      title: PreuserEditable
+      properties:
+        email:
+          type: string
+          minLength: 1
+          description: preuser email. Should be unique across the preuser
+          example: test@domain.com
+        name:
+          type: string
+          minLength: 1
+          description: Preuser's first name
+          example: BoJack
+        surname:
+          type: string
+          minLength: 1
+          description: Preuser's last name
+          example: Horseman
+        role:
+          type: string
+          description: Preuser's role
+          enum:
+            - founder
+            - admin
+            - investor
+
+    UserProfileUserEditable:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          email: string
+          name: string
+          surname: string
+          avatarUrl: string
+          bio: string
+          theme: string
+          watchedVideos: 0
+      title: UserProfileUserEditable
+      properties:
+        email:
+          type: string
+          minLength: 1
+          description: User email. Should be unique across the users
+          example: test@domain.com
+        name:
+          type: string
+          minLength: 1
+          description: User first name
+          example: BoJack
+        surname:
+          type: string
+          minLength: 1
+          description: User last name
+          example: Horseman
+        avatarUrl:
+          type: string
+          minLength: 1
+          description: User's avatar URL
+          example: 'https://i.pravatar.cc/300'
+        bio:
+          type: string
+          minLength: 1
+          description: User's bio
+          example: User's bio goes here
+        theme:
+          type: string
+          minLength: 1
+          description: User's client application theme
+          enum:
+            - light
+            - dark
+    UserProfileAdminEditable:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          createdAt: string
+          verified: true
+          deleted: true
+          paid: true
+          role: string
+          hasMarketingConsent: true
+          marketingConsentTimestamp: string
+          watchedVideos: 0
+      title: UserProfileAdminEditable
+      properties:
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time profile was created
+          example: '2020-11-30T17:45:32.193Z'
+        verified:
+          type: boolean
+          description: User verification status
+        deleted:
+          type: boolean
+          description: True indicates that user profile has been disabled or deleted
+        paid:
+          type: boolean
+          description: True indicates that user profile is of paying customer
+        role:
+          type: string
+          minLength: 1
+          description: User's role
+          enum:
+            - admin
+            - cohort-admin
+            - founder
+            - investor
+        hasMarketingConsent:
+          type: boolean
+          description: User's consent status
+        marketingConsentTimestamp:
+          type: string
+          minLength: 1
+          description: Date and time user's consent has been taken
+          example: '2020-11-30T17:45:32.193Z'
+        watchedVideos:
+          type: number
+          description: User's count of watched videos
+          example: 123
+    AggregatedUserProfile:
+      allOf:
+        - $ref: '#/components/schemas/UserProfileId'
+        - $ref: '#/components/schemas/UserProfileUserEditable'
+        - $ref: '#/components/schemas/UserProfileAdminEditable'
+    UserApplicationFeedBackReq:
+      description: 'Object send to BackEnd for create Application Feedback'
+      type: object
+      x-examples:
+        example-1:
+          feedback: string
+      title: UserApplicationFeedBackReq
+      properties:
+        feedback:
+          type: string
+          minLength: 1
+          description: Sentence that user can be input to describe that how about user feel after using this app.
+          example: This app is good. I can find many opportunity to communicate with start up. test
+    UserApplicationFeedBackResponse:
+      description: 'Object send to BackEnd for create Application Feedback'
+      type: object
+      x-examples:
+        example-1:
+          _id: string
+          userId: string
+          feedBackText: string
+          createdAt: string
+          updatedAt: string
+      title: UserApplicationFeedBackResponse
+      properties:
+        _id:
+          type: string
+          minLength: 1
+          description: Unique ID
+          example: 5fc52fbcf779cd786fabfff0
+        userId:
+          type: string
+          minLength: 1
+          description: UserId who logging in
+          example: 60ae31c6fbc98c663de45037
+        feedBackText:
+          type: string
+          minLength: 1
+          description: UserId who logging in
+          example: This app is good. I can find many opportunity to communicate with start up. testn1
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time feedback was created
+          example: '2020-11-30T17:45:32.193Z'
+        updatedAt:
+          type: string
+          minLength: 1
+          description: Date and time feedback was created
+          example: '2020-11-30T17:45:32.193Z'
+    UserApplicationFeedBackList:
+      description: 'Object send from BackEnd to Front-End when who want to get data of Application Feedback'
+      type: array
+      items:
+          type: object
+          $ref: '#/components/schemas/UserApplicationFeedBackResponse'  
+
+    CommunityFeedInsertReq:
+      description: 'Object send from Front-end for insert community feed post'
+      type: object
+      required:
+        - title
+      title: CommunityFeedInsertRequest
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Title at head of community post.
+          example: 'Title community card 01'
+        description:
+          type: string
+          minLength: 1
+          description: Admin user or who posted the community.
+          example: 'expian something that you want to.'
+        url:
+          type: string
+          description: The url that will be touch for open to browser.
+          example: 'https://www.google.com'
+        tags:
+          type: array
+          description: Array of tag name that user want to.
+          items:
+            type: string
+            description: Array of tag name that user want to.
+            example: 'AWS'
+        pushNotifications:
+          type: boolean
+          description: The feed post need notification or not.
+          example: true
+    CommunityFeedResponse:
+      description: 'Object response about CommunityPost that send from Back-end to front end.'
+      type: object
+      x-examples:
+        example-1:
+          _id: string
+          userId: string
+          feedBackText: string
+          createdAt: string
+          updatedAt: string
+      title: CommunityFeedResponse
+      properties:
+        id:
+          type: string
+          minLength: 1
+          description: Unique ID
+          example: 5fc52fbcf779cd786fabfff0
+        createdBy:
+          type: string
+          minLength: 1
+          description: UserId who created Community
+          example: 60ae31c6fbc98c663de45037
+        title:
+          type: string
+          minLength: 1
+          description: Title post name 
+          example: Title content name. 
+        description:
+          type: string
+          minLength: 1
+          description: Description to explain about what the content is it.
+          example: Description to explain about what the content is it.
+        url:
+          type: string
+          minLength: 1
+          description: The URL that will be touch for open in browser
+          example: 'www.google.com'
+        coverImageUrl:
+          type: string
+          minLength: 1
+          description: The URL that will be shown picture cover on front end.
+          example: 'https://storage.googleapis.com/ftmedia/deae4f84b59f7819db62d88ccb0709be'
+        tags:
+          type: array
+          items:
+            type: string
+            description: Tag name that user want to.
+            example: ['AWS',"google"]
+        pushNotifications:
+          type: boolean
+          description: The feed post need notification or not.
+          example: true
+        deleted:
+          type: boolean
+          description: This is describing about feed post is delete or not.
+          example: false
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time feedback was created
+          example: '2020-11-30T17:45:32.193Z'
+        updatedAt:
+          type: string
+          minLength: 1
+          description: Date and time feedback was created
+          example: '2020-11-30T17:45:32.193Z'
+    CommunityFeedUpdateReq:
+      description: 'Object send from Front-end for Update community feed'
+      type: object
+      title: CommunityFeedInsertRequest
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Title at head of community postd. If user want to update don't send empty string.
+          example: 'Title community post 01'
+        description:
+          type: string
+          minLength: 1
+          description: Admin user or who posted the community.
+          example: 'expian something that you want to.'
+        url:
+          type: string
+          description: The url that will be touch for open to browser.
+          example: 'https://www.google.com'
+        deleted:
+          type: boolean
+          description: This is describing about feed post is delete or not.
+          example: true
+        tags:
+          type: array
+          description: Array of tag name that user want to.
+          items:
+            type: string
+            description: Tag name that user want to.
+            example: 'AWS'
+        image:
+          type: object
+          description: The cover image file that admin want to use.
+          properties:
+            file:
+              type: string
+              format: binary
+        pushNotifications:
+          type: boolean
+          description: The feed post need notification or not.
+          example: true
+    CommunityFeedUploadImageReq:
+      description: 'Object sent from Front-end for Update community feed'
+      type: object
+      title: CommunityFeedInsertRequest
+      properties:
+        image:
+          type: object
+          description: The cover image file that admin want to use.
+          properties:
+            file:
+              type: string
+              format: binary
+    BusinessIdeaUploadLogoReq:
+      description: 'Object sent from Front-end for Update business idea logo'
+      type: object
+      title: BusinessIdeaUploadLogoReq
+      properties:
+        image:
+          type: object
+          description: The logo file.
+          properties:
+            file:
+              type: string
+              format: binary
+    
+    GenericErrors:
+      title: GenericErrors
+      type: object
+      x-examples:
+        example-1:
+          - string
+      properties:
+        errors:
+          type: array
+          description: Errors list occurred during request processing
+          items:
+            type: string
+      description: ''
+    FirebaseUserResponse:
+      description: ''
+      type: object
+      properties:
+        payload:
+          type: object
+          properties:
+            uid:
+              type: string
+              minLength: 1
+            email:
+              type: string
+              minLength: 1
+            emailVerified:
+              type: boolean
+            disabled:
+              type: boolean
+            metadata:
+              type: object
+              properties:
+                lastSignInTime: {}
+                creationTime:
+                  type: string
+                  minLength: 1
+              required:
+                - creationTime
+            tokensValidAfterTime:
+              type: string
+              minLength: 1
+            providerData:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - uid
+                  - email
+                  - providerId
+                properties:
+                  uid:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  providerId:
+                    type: string
+                    minLength: 1
+          required:
+            - uid
+            - email
+            - emailVerified
+            - disabled
+            - metadata
+            - tokensValidAfterTime
+            - providerData
+      required:
+        - payload
+      title: FirebaseUserResponse
+    UserConnection:
+      description: ''
+      type: object
+      title: UserConnection
+      properties:
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time connection was created
+          example: '2020-11-30T17:45:32.193Z'
+        id:
+          type: string
+          description: Object ID
+          example: 5fc52fbcf779cd786fabfff0
+        type:
+          type: string
+          description: Type of connection
+          example: mentor-founder
+          enum:
+            - mentor-founder
+        templateKey:
+          type: string
+          description: templateKey
+          example: connection-request-mentee-sent
+        createdBy:
+          type: object
+          $ref: '#/components/schemas/AggregatedUserProfile'
+          example: 60ffbcf779cd786fabfff0
+          description: The other user's data object. This changes depending on which user requested it. Only returned in list endpoints
+        userId:
+          type: string
+          description: userId that is requester
+          example: 5fc52fbcf779cd786fabfff0
+        updatedAt:
+          type: string
+          minLength: 1
+          description: Date and time profile was created
+          example: '2020-11-30T17:45:32.193Z'
+          
+    UserMeetingRequest-response:
+      description: ''
+      type: object
+      title: UserConnection
+      properties:
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time connection was created
+          example: '2020-11-30T17:45:32.193Z'
+        id:
+          type: string
+          description: Object ID
+          example: 5fc52fbcf779cd786fabfff0
+        type:
+          type: string
+          description: Type of connection
+          example: mentor-founder
+          enum:
+            - meeting-request-sent
+        createdBy:
+          type: object
+          $ref: '#/components/schemas/AggregatedUserProfile'
+          example: 60ffbcf779cd786fabfff0
+          description: The other user's data object. This changes depending on which user requested it. Only returned in list endpoints
+        userId:
+          type: string
+          description: userId that is requester
+          example: 5fc52fbcf779cd786fabfff0
+        updatedAt:
+          type: string
+          minLength: 1
+          description: Date and time profile was created
+          example: '2020-11-30T17:45:32.193Z'
+
+    SystemConfigResponse:
+      description: ''
+      type: object
+      title: SystemConfigResposnse
+      properties:
+        groupKey:
+          type: string
+          minLength: 1
+          description: Group key for defining lists of configs
+          example: 'language'
+        itemKey:
+          type: string
+          minLength: 1
+          description: Item key used to define a single config
+          example: 'language:english'
+        language:
+          type: string
+          minLength: 1
+          description: Locale of the config's value
+          example: 'en'
+        value:
+          type: string
+          minLength: 1
+          description: The value of the config
+          example: 'English'
+
+    SystemConfigsResponse:
+      description: ''
+      type: object
+      title: SystemConfigsResposnse
+      properties:
+        payload:
+          type: array
+          items:
+            - $ref: '#/components/schemas/SystemConfigResponse'
+          example: |-
+            [{
+                "groupKey": "language",
+                "itemKey": "language:english",
+                "language": "en",
+                "value": "English"
+            },
+            {
+                "groupKey": "language",
+                "itemKey": "language:afrikaans",
+                "language": "en",
+                "value": "Afrikaans"
+            },
+            {
+                "groupKey": "language",
+                "itemKey": "language:french",
+                "language": "en",
+                "value": "French"
+            }]
+    Notification:
+      description: ''
+      type: object
+      title: Notification
+      properties:
+        createdAt:
+          type: string
+          minLength: 1
+          description: Date and time notification was created
+          example: '2020-11-30T17:45:32.193Z'
+        id:
+          type: string
+          description: Object ID
+          example: 5fc52fbcf779cd786fabfff0
+        type:
+          type: string
+          description: Type of notification
+          example: connection-request-mentor
+          enum:
+            - connection-request-mentor
+        createdBy:
+          type: object
+          $ref: '#/components/schemas/AggregatedUserProfile'
+          example: 60ffbcf779cd786fabfff0
+          description: The other user's data object
+        updatedAt:
+          type: string
+          minLength: 1
+          description: Date and time profile was created
+          example: '2020-11-30T17:45:32.193Z'
+    DeviceUpdateRequest:
+      description: Request body of the device refresh endpoint
+      type: object
+      title: Device
+      properties:
+        fcmRegistrationToken:
+          type: string
+          minLength: 1
+          description: The fcm Registration Token
+          example: 'lj45lk34j54353l5kh5kl6jh456hg456kj4h5b6l4k6b45kj6hv45l6h45k6jgv45l6b46'
+        deviceOs:
+          type: string
+          minLength: 1
+          description: The operating system of the device
+          example: 'Android 8'
+  securitySchemes:
+    API Key:
+      name: API Key
+      type: apiKey
+      in: header
+      description: Firebase token

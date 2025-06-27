@@ -1,0 +1,21 @@
+FROM node:14
+
+RUN echo "deb http://packages.cloud.google.com/apt gcsfuse-stretch main" | tee /etc/apt/sources.list.d/gcsfuse.list \
+&& curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - \
+&& apt-get update && apt-get -y install gcsfuse
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+COPY entrypoint.sh /usr/bin/
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+ENTRYPOINT ["/bin/bash", "/usr/bin/entrypoint.sh"]
+
+CMD [ "node", "app-apisrv.js", "dev" ]

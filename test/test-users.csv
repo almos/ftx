@@ -1,0 +1,2 @@
+﻿name,surname,email,phone,education[0].institution,languages[0],signupQuestions[0].answer
+billy,murran,integration.tests.founder.second@ftx.com,975461234,KPI,fr,seed

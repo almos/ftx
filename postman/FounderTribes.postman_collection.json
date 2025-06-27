@@ -1,0 +1,2491 @@
+{
+	"info": {
+		"_postman_id": "b2fbe002-2c00-4a40-b026-cea9dbac78a9",
+		"name": "FTX",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create new playlist",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"My playlist 1\",\r\n    \"description\": \"Description for my playlist 1\",\r\n    \"tags\": [\r\n        \"logistics\",\r\n        \"pitches\"\r\n    ],\r\n    \"autoPlay\": false,\r\n    \"companyPlaylist\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing playlist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"My playlist 1\", \"description\": \"Description for my playlist 1\", \"tags\": [\"logistics\", \"pitches\"], \"autoPlay\": false, \"companyPlaylist\": false}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/600880a5a571a2ad3d278233",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"600880a5a571a2ad3d278233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Playlist - setting up videos list",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"videos\": [\"6000573a623c8d54e2a5187a, \"\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/600880a5a571a2ad3d278233",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"600880a5a571a2ad3d278233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Playlist - thumbnail upload",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Volumes/work/Personal/Avatars/am2.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/600880a5a571a2ad3d278233/thumbnail",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"600880a5a571a2ad3d278233",
+						"thumbnail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get existing playlist",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/600880a5a571a2ad3d278233",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"600880a5a571a2ad3d278233"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Playlist search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/search?tags[]=founder",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "founder"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public playlist search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/playlist/search/all?tags[]=founder",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"playlist",
+						"search",
+						"all"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "founder"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new author",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"John\", \"surname\": \"Smith\", \"title\": \"CEO\", \"description\": \"Blabla\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing author",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Johnx\", \"surname\": \"Smithx\", \"title\": \"CEOx\", \"description\": \"Blablax\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author/600e0ae617fe817a38dfbbe8",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"600e0ae617fe817a38dfbbe8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get an existing author",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"John\", \"surname\": \"Smith\", \"title\": \"CEO\", \"description\": \"Blabla\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for author",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"John\", \"surname\": \"Smith\", \"title\": \"CEO\", \"description\": \"Blabla\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author/search",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload author's avatar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Volumes/work/Personal/Avatars/am2.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author/avatar/600e0ae617fe817a38dfbbe8",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"avatar",
+						"600e0ae617fe817a38dfbbe8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete author's avatar",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Volumes/work/Personal/Avatars/am2.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/author/avatar/600e0ae617fe817a38dfbbe8",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"author",
+						"avatar",
+						"600e0ae617fe817a38dfbbe8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"email\": \"moskvin.aleksey@gmail.com\", \"password\": \"Abc!123\", \"role\": \"founder\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/profile/me",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Password reset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/reset?email=moskvin.aleksey@gmail.com",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"reset"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "moskvin.aleksey@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get self profile",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/profile/me",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload self avatar",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/Volumes/work/Personal/Avatars/am2.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/avatar/me",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"avatar",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set signup questions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"signupQuestions\":[{\"question\":\"5fe0c218d3ebe20936ac85a9\",\"answer\":\"entrepreneur\"},{\"question\":\"5fe0c218d3ebe20936ac85aa\",\"answer\":\"self-funded\"},{\"question\":\"5fe0c218d3ebe20936ac85ab\",\"answer\":[\"aerospace\",\"transport\"]},{\"question\":\"5fe0c218d3ebe20936ac85ac\",\"answer\":[\"raise capital\"]}]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/profile/me",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"profile",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get signup questions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/signup-questions",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"signup-questions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get review categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/review-categories",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"review-categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload new video",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "video",
+							"type": "file",
+							"src": "/Volumes/work/sample-mp4-file.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set video viewmark",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"lastWatchedAtSec\": 123, \"completed\": false}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18/viewmark",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18",
+						"viewmark"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get video viewmark",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18/viewmark",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18",
+						"viewmark"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing video",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"Video Title 1\", \"description\": \"Video Description 1\", \"tags\": [\"tag1\", \"tag1\", \"tag10\"], \"authors\": [\"600168bcaae4412eec424ec1\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like a video",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18/like",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a video",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Dislike a video",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/5fd6406a8e7e279a41399e18/dislike",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"5fd6406a8e7e279a41399e18",
+						"dislike"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search a video",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/video/search",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"video",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "description",
+							"disabled": true
+						},
+						{
+							"key": "tags[]",
+							"value": "tag10",
+							"disabled": true
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "skip",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "author",
+							"value": "600168bcaae4412eec424ec1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a business idea",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"My super-duper pitch\", \"description\": \"The quick brown fox jumps over the lazy dog\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/business-idea",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"business-idea"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing business idea",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"  My updated title  \", \r\n    \"description\": \"  My updated description  \",\r\n    \"language\":\"en\",\r\n    \"logo\": \"https://seeklogo.com/images/D/Dex-logo-45FF495D6C-seeklogo.com.gif\",\r\n    \"websiteUrl\": \"https://seeklogo.com/vector-logo/40674/dex\",\r\n    \"industries\": [\"This is industries\"],\r\n    \"location\": [\"This is location\"]\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/business-idea/6058933da9ea0735488fbbb5",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"business-idea",
+						"6058933da9ea0735488fbbb5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user's business ideas",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"description\": \"The quick brown fox jumps over the lazy dog\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/business-idea/my",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"business-idea",
+						"my"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get business idea by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"description\": \"The quick brown fox jumps over the lazy dog\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/business-idea/5fd68a71da1aa9e14920723d",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"business-idea",
+						"5fd68a71da1aa9e14920723d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a pitch",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"businessIdeaId\": \"5fd68ae0e65fdff2491a6617\", \"title\": \"My brand new test pitch x13\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a pitch",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5ffb79120503d6f7b4352eb7",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5ffb79120503d6f7b4352eb7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update a pitch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"My great pitch\", \"description\": \"Description for a great pitch Z\", \"tags\": [\"tag1\", \"tag2\", \"tag1\"], \"private\": true}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fd802375d3f5287614df9d2",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fd802375d3f5287614df9d2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gets a pitch",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fda324aee1965396cadd0d4",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fda324aee1965396cadd0d4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Upload pitch video",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "video",
+							"type": "file",
+							"src": "/Volumes/work/sample-mp4-file.mp4"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fff86b957e807abdc3517a2/video",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fff86b957e807abdc3517a2",
+						"video"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit pitch for a review",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/600a1a11a28cc6552c34e435/submit",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"600a1a11a28cc6552c34e435",
+						"submit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Revoke pitch from a review",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fd734ca67cb9b6c50180e03/revoke",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fd734ca67cb9b6c50180e03",
+						"revoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit a review for a pitch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"feedback\": \"Cool pitch feedback 111\",\n    \"rate\": [\n        {\n            \"reviewCategoryId\": \"5fe726d75897be1e460e7e13\",\n            \"reviewRating\": 1\n        },\n        {\n            \n            \"reviewCategoryId\": \"5fe726d75897be1e460e7e12\",\n            \"reviewRating\": 2\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5ff60c2ed0b901639f239661/review",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5ff60c2ed0b901639f239661",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pitch reviews",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fd802375d3f5287614df9d2/reviews",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fd802375d3f5287614df9d2",
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pitch review by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/5fda324aee1965396cadd0d4/review/5fe8e0819df0594252d8b5ac",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"5fda324aee1965396cadd0d4",
+						"review",
+						"5fe8e0819df0594252d8b5ac"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get own active pitches",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/my/active",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"my",
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search a pitch",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/search?sub=true&excludeOwn=false&excludeReviewed=false&pageSize=1",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "tag2",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sub",
+							"value": "true"
+						},
+						{
+							"key": "excludeOwn",
+							"value": "false"
+						},
+						{
+							"key": "excludeReviewed",
+							"value": "false"
+						},
+						{
+							"key": "pageSize",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find unreviewed pitches",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/unreviewed",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"unreviewed"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "tag2",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sub",
+							"value": "true",
+							"disabled": true
+						},
+						{
+							"key": "excludeOwn",
+							"value": "false",
+							"disabled": true
+						},
+						{
+							"key": "excludeReviewed",
+							"value": "false",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pitches for a business idea",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/business-idea/5fd68ae0e65fdff2491a6617/pitches",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"business-idea",
+						"5fd68ae0e65fdff2491a6617",
+						"pitches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all unreviewed pitches",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/unreviewed",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"unreviewed"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Approve pitch (internal review)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/search?sub=true&excludeOwn=false&excludeReviewed=false",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "tag2",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sub",
+							"value": "true"
+						},
+						{
+							"key": "excludeOwn",
+							"value": "false"
+						},
+						{
+							"key": "excludeReviewed",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reject pitch (internal review)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"type": "text",
+						"value": "{{AuthToken}}"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/search?sub=true&excludeOwn=false&excludeReviewed=false",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"search"
+					],
+					"query": [
+						{
+							"key": "tags[]",
+							"value": "tag2",
+							"disabled": true
+						},
+						{
+							"key": "q",
+							"value": "1",
+							"disabled": true
+						},
+						{
+							"key": "sub",
+							"value": "true"
+						},
+						{
+							"key": "excludeOwn",
+							"value": "false"
+						},
+						{
+							"key": "excludeReviewed",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new group",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"generic\",\r\n    \"global\": false,\r\n    \"private\": false,\r\n    \"title\": \"Panel 11\",\r\n    \"organization\": \"51286fc686413927b8104a78\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/group/",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"group",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public group search",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/group/search",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"group",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get group by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/group/60586fca86413927b810567a",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"group",
+						"60586fca86413927b810567a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"type\": \"ft-global\",\r\n    \"global\": true,\r\n    \"private\": false,\r\n    \"title\": \"FTX wider\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/group/60586fca86413927b810567a",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"group",
+						"60586fca86413927b810567a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/user/search?pageSize=1",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"user",
+						"search"
+					],
+					"query": [
+						{
+							"key": "pageSize",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Linkedin - get profile data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/search/all?sub=true&businessideatitle=boys&languages[]=fr",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"search",
+						"all"
+					],
+					"query": [
+						{
+							"key": "sub",
+							"value": "true"
+						},
+						{
+							"key": "businessideatitle",
+							"value": "boys"
+						},
+						{
+							"key": "languages[]",
+							"value": "fr"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Linkedin - get access token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=AQQfIjizX0g1etE4ynVxVy7VP41fVu83YQvFLV13DCdekAkLxTNoAmK7BfaiL_L2nvu7-WOLKKKA1cHyEDpeA5keIBJL2VwVQAb-TivdmasAKaBsizvwVeDRYk47qocu1CWRSjbTGBb2d0EucAPkwYeM1VUs7WVzF9OyF3NEXajg_AHbU3ad0-Vb2drHlrhQffk7OPgLnzXrvKpi4IE&client_id=78tu8wdp1fsfxq&client_secret=a15xtIaaQ1Pr9f3l&redirect_uri=http://localhost:3000/api/integration/linkedin",
+					"protocol": "https",
+					"host": [
+						"www",
+						"linkedin",
+						"com"
+					],
+					"path": [
+						"oauth",
+						"v2",
+						"accessToken"
+					],
+					"query": [
+						{
+							"key": "grant_type",
+							"value": "authorization_code"
+						},
+						{
+							"key": "code",
+							"value": "AQQfIjizX0g1etE4ynVxVy7VP41fVu83YQvFLV13DCdekAkLxTNoAmK7BfaiL_L2nvu7-WOLKKKA1cHyEDpeA5keIBJL2VwVQAb-TivdmasAKaBsizvwVeDRYk47qocu1CWRSjbTGBb2d0EucAPkwYeM1VUs7WVzF9OyF3NEXajg_AHbU3ad0-Vb2drHlrhQffk7OPgLnzXrvKpi4IE"
+						},
+						{
+							"key": "client_id",
+							"value": "78tu8wdp1fsfxq"
+						},
+						{
+							"key": "client_secret",
+							"value": "a15xtIaaQ1Pr9f3l"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000/api/integration/linkedin"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Linkedin - get user email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))&oauth2_access_token=AQU67QLLgi1As6t016hxXQc1NdMI25n8kh0Bd_IiqB7YDc1Y86r6XL_N8ReNMVM-f8C0iU0JKNFqpSn5ewhHSk28RP_aC58PCibX3yUQRXMWavmT82WpIHH42UdYghnaXA_jhhml3uRBNW5n4NogcNiS1dqkczfTqqW8gUmO_pQAlzo4KrcNmp5Z6p9yceTbE529E2S5Jt1ZUIBlTCYFoU3S7tA\nOdwQvyiE2gjnO788f2SPTjcehlCq7vA4ui9Kqgc41BaR4N6ps9mM75xucRYWJizgJfCoTNelcG1bktOz6E-Xz4mVaatai5D7-1oO-fdENP7tT804zYlbPlZmsBgz2JZmblQ",
+					"protocol": "https",
+					"host": [
+						"api",
+						"linkedin",
+						"com"
+					],
+					"path": [
+						"v2",
+						"emailAddress"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "members"
+						},
+						{
+							"key": "projection",
+							"value": "(elements*(handle~))"
+						},
+						{
+							"key": "oauth2_access_token",
+							"value": "AQU67QLLgi1As6t016hxXQc1NdMI25n8kh0Bd_IiqB7YDc1Y86r6XL_N8ReNMVM-f8C0iU0JKNFqpSn5ewhHSk28RP_aC58PCibX3yUQRXMWavmT82WpIHH42UdYghnaXA_jhhml3uRBNW5n4NogcNiS1dqkczfTqqW8gUmO_pQAlzo4KrcNmp5Z6p9yceTbE529E2S5Jt1ZUIBlTCYFoU3S7tA\nOdwQvyiE2gjnO788f2SPTjcehlCq7vA4ui9Kqgc41BaR4N6ps9mM75xucRYWJizgJfCoTNelcG1bktOz6E-Xz4mVaatai5D7-1oO-fdENP7tT804zYlbPlZmsBgz2JZmblQ"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new pre-user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userData\": {\r\n  \"email\": \"john.whales@gmail.com\", \r\n  \"role\": \"founder\",\r\n  \"name\": \"John\",\r\n  \"surname\": \"Whales\",\r\n  \"calendyUrl\": \"is this url\",\r\n  \"avatarUrl\": \"next Url\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser?notify=false",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser"
+					],
+					"query": [
+						{
+							"key": "notify",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update existing pre-user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"language\": \"fr\",\r\n    \"email\": \"preuser@gmail.com\",\r\n    \"role\": \"founder\",\r\n    \"name\": \"Updated name\",\r\n    \"surname\": \"Updated surname\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/609e66dec0e63f32fcce45fd",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"609e66dec0e63f32fcce45fd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get existing pre-user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/609e66dec0e63f32fcce45fd",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"609e66dec0e63f32fcce45fd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete existing pre-user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/609e66dec0e63f32fcce45fd",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"609e66dec0e63f32fcce45fd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send invite notification",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/invite/609e9aaef1d06d1358c5b49c",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"invite",
+						"609e9aaef1d06d1358c5b49c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send bulk invite notification",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"preUserIds\": [\"609e9aaef1d06d1358c5b49c\", \"609e9af4f1d06d1358c5b49d\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/invite",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"invite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pre-user registration by invite-code",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/register?code=mcuclaea",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"register"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "mcuclaea"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send invite notification for pre-user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/invite/pre-user-id",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"invite",
+						"pre-user-id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send bulk invite notification for pre-users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    \"5fd61c19631e2d86c5ae9cf0\",\r\n    \"6fd61c19631e2d86c5ae9cf1\",\r\n    \"7fd61c19631e2d86c5ae9cf2\"\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/invite/list",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"invite",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for pre-users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/preuser/invite/list",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"preuser",
+						"invite",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit review for pitch review",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rate\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/606c1cf6c7bcd3cfbcbb1f95/review/60ccbea545b48d38e8b5266a/feedback",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"606c1cf6c7bcd3cfbcbb1f95",
+						"review",
+						"60ccbea545b48d38e8b5266a",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get reviews for pitch review",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/606c1cf6c7bcd3cfbcbb1f95/review/60ccbea545b48d38e8b5266a/feedback",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"606c1cf6c7bcd3cfbcbb1f95",
+						"review",
+						"60ccbea545b48d38e8b5266a",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit user own review for pitch review",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"rate\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{schema}}://{{hostname}}/api/pitch/606c1cf6c7bcd3cfbcbb1f95/review/60ccbea545b48d38e8b5266a/feedback",
+					"protocol": "{{schema}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"pitch",
+						"606c1cf6c7bcd3cfbcbb1f95",
+						"review",
+						"60ccbea545b48d38e8b5266a",
+						"feedback"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

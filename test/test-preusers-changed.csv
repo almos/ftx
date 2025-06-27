@@ -1,0 +1,3 @@
+﻿name,surname,email,phone,education[0].institution,languages[0]
+billy,murran,test.murray@gmail.com,975461234,KPI,fr
+

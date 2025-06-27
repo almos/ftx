@@ -1,0 +1,201 @@
+jobs:
+  tests:
+    docker:
+      - image: cimg/node:14.18.0
+    steps:
+      - checkout
+      - node/install-packages:
+          # cache-path: ~/app/node_modules
+          # cache-version: v2
+          override-ci-command: npm install
+      - run:
+          name: Run integration tests
+          command: |
+            npm test
+  build-and-push-api-image:
+    executor: gcp-gcr/default
+    steps:
+      - checkout
+      - run:
+          name: Prepare env vars
+          command: |
+            echo $GCLOUD_SERVICE_KEY > base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+      - gcp-gcr/gcr-auth
+      - gcp-gcr/build-image:
+          dockerfile: Dockerfile.api
+          image: ftx/$CIRCLE_PROJECT_REPONAME-api
+          no_output_timeout: 20m
+          registry-url: eu.gcr.io
+      - gcp-gcr/push-image:
+          digest-path: /tmp/digest.txt
+          image: ftx/$CIRCLE_PROJECT_REPONAME-api
+          registry-url: eu.gcr.io
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
+  build-and-push-job-image:
+    executor: gcp-gcr/default
+    steps:
+      - checkout
+      - run:
+          name: Prepare env vars
+          command: |
+            echo $GCLOUD_SERVICE_KEY > base64 --decode --ignore-garbage > ${HOME}/gcloud-service-key.json
+      - gcp-gcr/gcr-auth
+      - gcp-gcr/build-image:
+          dockerfile: Dockerfile.job
+          image: ftx/$CIRCLE_PROJECT_REPONAME-job
+          no_output_timeout: 20m
+          registry-url: eu.gcr.io
+      - gcp-gcr/push-image:
+          digest-path: /tmp/digest.txt
+          image: ftx/$CIRCLE_PROJECT_REPONAME-job
+          registry-url: eu.gcr.io
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"
+  deploy:
+    executor: machine-executor
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:99:24:31:33:25:27:57:bc:c4:13:31:00:79:bb:69"
+      - run:
+          name: Pull images and Up containers on remote host
+          command: |
+            cat  \<< EOF > .env.backend
+             REDIS_URI=$REDIS_URI
+             TARGET_ENVIRONMENT=$TARGET_ENVIRONMENT
+             FIREBASE_DATABASEURL=$FIREBASE_DATABASEURL
+             #MONGODB_APP_USER=$MONGODB_APP_USER
+             #MONGODB_APP_PASSWORD=$MONGODB_APP_PASSWORD
+             #MONGODB_APP_DB=$MONGODB_APP_DB
+             #MONGODB_APP_HOST=$MONGODB_APP_HOST
+             MONGODB_APP_JOBS=$MONGODB_APP_JOBS
+             MONGO_APP_URI=$MONGO_APP_URI
+             MIGRATE_dbConnectionUri=$MONGO_APP_URI
+             MONGODB_APP_URL=$MONGO_APP_URI
+             MONGODB_JOB_URL=$MONGO_APP_URI
+             #MIGRATE_dbConnectionUri=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_DB
+             #MONGODB_APP_URL=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_DB
+             #MONGODB_JOB_URL=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_JOBS
+             INFLUX_HOST=$INFLUX_HOST
+             INFLUX_DATABASE=$INFLUX_DATABASE
+             INFLUX_ENABLED=$INFLUX_ENABLED
+            EOF
+            ssh root@$GCLOUD_HOST "rm -rf /opt/app/docker-compose-backend.yml"
+            ssh root@$GCLOUD_HOST "rm -rf /opt/grafana/docker-compose.yml"
+            scp ./docker-compose-backend.yml root@$GCLOUD_HOST:/opt/app/
+            scp ./docker-compose-grafana.yml root@$GCLOUD_HOST:/opt/grafana/docker-compose.yml
+            scp ./etc/mongod.conf root@$GCLOUD_HOST:/opt/app/etc/
+            scp -p .env.backend root@$GCLOUD_HOST:/opt/app/
+            ssh root@$GCLOUD_HOST "gcloud auth activate-service-account --key-file=ftx-landing-page-9755516f1480.json"
+            ssh root@$GCLOUD_HOST "gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://eu.gcr.io"
+            ssh root@$GCLOUD_HOST "docker-compose -f /opt/app/docker-compose-backend.yml pull"
+            ssh root@$GCLOUD_HOST "docker-compose --env-file .env.backend -f /opt/app/docker-compose-backend.yml up -d"
+
+  deploy-ext:
+    executor: machine-executor
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "1f:99:24:31:33:25:27:57:bc:c4:13:31:00:79:bb:69"
+      - run:
+          name: Pull images and Up containers on remote host
+          command: |
+            cat  \<< EOF > .env.backend
+             REDIS_URI=$REDIS_URI
+             TARGET_ENVIRONMENT=$TARGET_ENVIRONMENT
+             FIREBASE_DATABASEURL=$FIREBASE_DATABASEURL
+             #MONGODB_APP_USER=$MONGODB_APP_USER
+             #MONGODB_APP_PASSWORD=$MONGODB_APP_PASSWORD
+             #MONGODB_APP_DB=$MONGODB_APP_DB
+             #MONGODB_APP_HOST=$MONGODB_APP_HOST
+             MONGODB_APP_JOBS=$MONGODB_APP_JOBS
+             MONGO_APP_URI=$MONGO_APP_URI
+             MIGRATE_dbConnectionUri=$MONGO_APP_URI
+             MONGODB_APP_URL=$MONGO_APP_URI
+             MONGODB_JOB_URL=$MONGO_APP_URI
+             #MIGRATE_dbConnectionUri=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_DB
+             #MONGODB_APP_URL=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_DB
+             #MONGODB_JOB_URL=mongodb://$MONGODB_APP_USER:$MONGODB_APP_PASSWORD@$MONGODB_APP_HOST:27017/$MONGODB_APP_JOBS
+             INFLUX_HOST=$INFLUX_HOST
+             INFLUX_DATABASE=$INFLUX_DATABASE
+             INFLUX_ENABLED=$INFLUX_ENABLED
+            EOF
+            ssh root@$GCLOUD_HOST "rm -rf /opt/app/docker-compose-backend-ext.yml"
+            scp ./docker-compose-backend-ext.yml root@$GCLOUD_HOST:/opt/app/
+            scp ./etc/mongod.conf root@$GCLOUD_HOST:/opt/app/etc/
+            scp -p .env.backend root@$GCLOUD_HOST:/opt/app/
+            ssh root@$GCLOUD_HOST "gcloud auth activate-service-account --key-file=ftx-landing-page-9755516f1480.json"
+            ssh root@$GCLOUD_HOST "gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin https://eu.gcr.io"
+            ssh root@$GCLOUD_HOST "docker-compose -f /opt/app/docker-compose-backend-ext.yml pull"
+            ssh root@$GCLOUD_HOST "cd /opt/app && docker-compose --env-file .env.backend -f /opt/app/docker-compose-backend-ext.yml up -d"
+
+orbs:
+  node: circleci/node@4.1.0
+  gcp-gcr: circleci/gcp-gcr@0.11.0
+executors:
+  machine-executor:
+    machine: true
+version: 2.1
+workflows:
+  workflow:
+    jobs:
+      - tests:
+          filters:
+            branches:
+              only: /^develop.*/
+
+      - build-and-push-api-image:
+          filters:
+            branches:
+              ignore: /feature\/.*/
+
+      - build-and-push-job-image:
+          filters:
+            branches:
+              ignore: /feature\/.*/
+
+      - deploy:
+          name: deploy-staging
+          context: backend-staging
+          filters:
+            branches:
+              only: develop
+          requires:
+            - build-and-push-api-image
+            - build-and-push-job-image
+
+      #      - deploy:
+      #          name: deploy-feature-bugfix
+      #          context: backend-test
+      #          filters:
+      #            branches:
+      #              ignore:
+      #                - main
+      #                - develop
+      #          requires:
+      #            - build-and-push-api-image
+      #            - build-and-push-job-image
+      - deploy:
+          name: deploy-prod
+          context: backend-prod
+          filters:
+            branches:
+              only: main
+          requires:
+            - build-and-push-api-image
+            - build-and-push-job-image
+
+      - deploy-ext:
+          name: deploy-staging-ext
+          context: backend-staging-ext
+          filters:
+            branches:
+              only: develop-ext
+          requires:
+            - build-and-push-api-image
+            - build-and-push-job-image
